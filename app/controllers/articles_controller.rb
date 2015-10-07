@@ -21,6 +21,7 @@ class ArticlesController < ApplicationController
 	def create
 		@article = Article.new(article_params)
 		@article.author_id = current_user.id
+		@article.created_by = current_user.username
 		@article.save
 		flash.notice = "Article '#{@article.title}' created!"
 
@@ -82,7 +83,7 @@ class ArticlesController < ApplicationController
 
 	def author_matches_current_user
 		@article = Article.find(params[:id])
-		unless current_user && @article.author == current_user
+		unless @article.author && current_user && @article.author == current_user
 	        redirect_to article_path(@article)
 	        flash.notice = "An article may only be edited by its author!"
 	        return false
