@@ -10,6 +10,9 @@
 
 <% if logged_in? %>
 	<%= link_to "Create a New Article", new_article_path, class: "new_article" %>
+<% end %>
+
+<% if Author.count == 0 || logged_in? %>
 	<br/><%= link_to ">> To Author List", authors_path %>
 <% end %>
 
