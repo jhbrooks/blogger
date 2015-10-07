@@ -1,5 +1,8 @@
 <h1><%= @article.title %></h1>
 <p>
+	Created by <%= @article.author.username %>
+</p>
+<p>
 	Tags:
 	<% @article.tags.each do |tag| %>
 		<%= link_to tag.name, tag_path(tag) %>

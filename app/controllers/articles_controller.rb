@@ -1,7 +1,8 @@
 class ArticlesController < ApplicationController
 	include ArticlesHelper
 	
-	before_filter :require_login, only: [:new, :create, :edit, :update, :destroy]
+	before_filter :require_login, only: [:new, :create, :destroy]
+	before_filter :author_matches_current_user, only: [:edit, :update]
 
 	def index
 		@articles = Article.all
@@ -19,6 +20,7 @@ class ArticlesController < ApplicationController
 
 	def create
 		@article = Article.new(article_params)
+		@article.author_id = current_user.id
 		@article.save
 		flash.notice = "Article '#{@article.title}' created!"
 
@@ -74,5 +76,16 @@ class ArticlesController < ApplicationController
 		end
 
 		redirect_to article_path(@article)
+	end
+
+	private
+
+	def author_matches_current_user
+		@article = Article.find(params[:id])
+		unless current_user && @article.author == current_user
+	        redirect_to article_path(@article)
+	        flash.notice = "An article may only be edited by its author!"
+	        return false
+	    end
 	end
 end
