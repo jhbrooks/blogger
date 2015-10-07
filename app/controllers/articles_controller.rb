@@ -12,6 +12,9 @@ class ArticlesController < ApplicationController
 		@article = Article.find(params[:id])
 		@comment = Comment.new
 		@comment.article_id = @article.id
+
+		@article.up_count
+		@article.save
 	end
 
 	def new
@@ -22,6 +25,7 @@ class ArticlesController < ApplicationController
 		@article = Article.new(article_params)
 		@article.author_id = current_user.id
 		@article.created_by = current_user.username
+		@article.view_count = 0
 		@article.save
 		flash.notice = "Article '#{@article.title}' created!"
 

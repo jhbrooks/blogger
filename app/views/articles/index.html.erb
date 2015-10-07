@@ -4,6 +4,8 @@
 	<% @articles.each do |article| %>
 		<li>
 			<%= link_to article.title, article_path(article) %>
+			| Created by: <%= article.created_by %>
+			| Views: <%= article.view_count %>
 		</li>
 	<% end %>
 </ul>
