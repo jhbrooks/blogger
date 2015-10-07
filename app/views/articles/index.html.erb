@@ -10,6 +10,22 @@
 	<% end %>
 </ul>
 
+<br/><p>Most Popular Articles:</p>
+<ul>
+	<% top_three_articles = [] %>
+	<% @articles.order(view_count: :desc, updated_at: :desc).each do |article| %>
+		<% top_three_articles << article %>
+	<% end %>
+	<% top_three_articles = top_three_articles[0..2] %>
+	<% top_three_articles.each do |article| %>
+		<li>
+			<%= link_to article.title, article_path(article) %>
+			| Created by: <%= article.created_by %>
+			| Views: <%= article.view_count %>
+		</li>
+	<% end %>
+</ul>
+
 <% if logged_in? %>
 	<%= link_to "Create a New Article", new_article_path, class: "new_article" %>
 <% end %>
